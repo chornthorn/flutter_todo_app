@@ -205,6 +205,25 @@ class MyDatabase {
     }
   }
 
+  // find user email
+  Future<User?> findUserByEmail(String email) async {
+    try {
+      Database db = await database;
+      List<Map<String,dynamic>> maps = await db.query("users",
+          columns: ["id", "name", "email", "password", "created_at", "updated_at"],
+          where: "email = ?",
+          whereArgs: [email]);
+      if (maps.length > 0) {
+        return User.fromMap(maps.first);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      throw Exception("Error finding user");
+    }
+  }
+
   Future<int> updateUser(User user) async {
     try {
       Database db = await database;

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/views/dashboard_page.dart';
 
+import '../services/my_database.dart';
 import 'home_page.dart';
 import 'register_page.dart';
 
@@ -102,18 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: const Text('Login'),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      _showLoadingIndicator(context);
-                      Future.delayed(
-                        const Duration(seconds: 2),
-                        () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                              builder: (context) => DashboardPage(),
-                            ),
-                            (Route<dynamic> route) => false,
-                          );
-                        },
-                      );
+                      _login(_emailController.text, _passwordController.text);
                     } else {
                       _showSnackBar(context, 'Please fill in the form');
                     }
@@ -179,5 +169,32 @@ class _LoginPageState extends State<LoginPage> {
         );
       },
     );
+  }
+
+  // create login function with email and password input
+  void _login(String email, String password) async {
+    // find one user with email and password in database
+    final database = await MyDatabase();
+    _showLoadingIndicator(context);
+    final foundUser = await database.findUserByEmail(email);
+    if (foundUser != null) {
+      // if user is found, check if password is correct
+      if (foundUser.password == password) {
+        // if password is correct, go to home page
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => DashboardPage(),
+          ),
+        );
+      } else {
+        // if password is incorrect, show snack
+        _showSnackBar(context, 'Incorrect password');
+        Navigator.of(context).pop();
+      }
+    } else {
+      // if user is not found, show snack
+      _showSnackBar(context, 'User not found');
+      Navigator.of(context).pop();
+    }
   }
 }

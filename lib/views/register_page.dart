@@ -1,5 +1,7 @@
 // create RegisterPage
 import 'package:flutter/material.dart';
+import 'package:todo_app/services/my_database.dart';
+import 'package:todo_app/views/dashboard_page.dart';
 
 import 'home_page.dart';
 
@@ -121,17 +123,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: const Text('Register'),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      _showLoadingIndicator(context);
-                      Future.delayed(
-                        const Duration(seconds: 2),
-                        () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                              builder: (context) => HomePage(),
-                            ),
-                            (Route<dynamic> route) => false,
-                          );
-                        },
+                      _register(
+                        _nameController.text,
+                        _emailController.text,
+                        _passwordController.text,
                       );
                     } else {
                       _showSnackBar(context, 'Please fill in the form');
@@ -193,5 +188,29 @@ class _RegisterPageState extends State<RegisterPage> {
         );
       },
     );
+  }
+
+  // register function to register the user with the given name, email and password
+  void _register(String name, String email, String password) async {
+    final database = await MyDatabase();
+    _showLoadingIndicator(context);
+    final user = User(
+      name: name,
+      email: email,
+      password: password,
+    );
+    final result = await database.insertUser(user);
+    if (result == 0) {
+      _showSnackBar(context, 'Registration failed');
+      Navigator.of(context).pop();
+    } else {
+      _showSnackBar(context, 'Registration successful');
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => DashboardPage(),
+        ),
+        (Route<dynamic> route) => false,
+      );
+    }
   }
 }
