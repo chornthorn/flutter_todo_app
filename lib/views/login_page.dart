@@ -42,9 +42,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 130,
-              ),
+              SizedBox(height: 130),
               CircleAvatar(
                 radius: 50,
                 child: FlutterLogo(
@@ -181,10 +179,11 @@ class _LoginPageState extends State<LoginPage> {
       // if user is found, check if password is correct
       if (foundUser.password == password) {
         // if password is correct, go to home page
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) => DashboardPage(),
           ),
+          (route) => false,
         );
       } else {
         // if password is incorrect, show snack
