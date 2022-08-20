@@ -129,7 +129,6 @@ class Todo {
   }
 
   static Todo fromMap(Map<String, dynamic> map) {
-
     return Todo(
       id: map['id'],
       userId: map['user_id'],
@@ -162,7 +161,8 @@ class MyDatabase {
 
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "my_database.db");
+    String path = join(documentsDirectory.path,
+        "my_database.db"); //my_phone/documents/my_database.db
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute("CREATE TABLE users ("
@@ -208,8 +208,8 @@ class MyDatabase {
   Future<int> updateUser(User user) async {
     try {
       Database db = await database;
-      return await db.update("users", user.toMap(),
-          where: "id = ?", whereArgs: [user.id]);
+      return await db
+          .update("users", user.toMap(), where: "id = ?", whereArgs: [user.id]);
     } catch (e) {
       print(e);
       throw Exception("Error updating user");
@@ -219,8 +219,8 @@ class MyDatabase {
   Future<int> updateTodo(Todo todo) async {
     try {
       Database db = await database;
-      return await db.update("todos", todo.toMap(),
-          where: "id = ?", whereArgs: [todo.id]);
+      return await db
+          .update("todos", todo.toMap(), where: "id = ?", whereArgs: [todo.id]);
     } catch (e) {
       print(e);
       throw Exception("Error updating todo");
@@ -250,7 +250,7 @@ class MyDatabase {
   Future<List<User>> getUsers() async {
     try {
       Database db = await database;
-      List<Map<String,dynamic>> maps = await db.query("users");
+      List<Map<String, dynamic>> maps = await db.query("users");
       return List.generate(maps.length, (i) {
         return User.fromMap(maps[i]);
       });
@@ -263,7 +263,7 @@ class MyDatabase {
   Future<List<Todo>> getTodos() async {
     try {
       Database db = await database;
-      List<Map<String,dynamic>> maps = await db.query("todos");
+      List<Map<String, dynamic>> maps = await db.query("todos");
       return List.generate(maps.length, (i) {
         return Todo.fromMap(maps[i]);
       });
@@ -276,7 +276,8 @@ class MyDatabase {
   Future<List<Todo>> getTodosByUserId(int userId) async {
     try {
       Database db = await database;
-      List<Map<String,dynamic>> maps = await db.query("todos", where: "user_id = ?", whereArgs: [userId]);
+      List<Map<String, dynamic>> maps =
+          await db.query("todos", where: "user_id = ?", whereArgs: [userId]);
       return List.generate(maps.length, (i) {
         return Todo.fromMap(maps[i]);
       });
@@ -289,7 +290,8 @@ class MyDatabase {
   Future<User> getUserById(int id) async {
     try {
       Database db = await database;
-      List<Map<String,dynamic>> maps = await db.query("users", where: "id = ?", whereArgs: [id]);
+      List<Map<String, dynamic>> maps =
+          await db.query("users", where: "id = ?", whereArgs: [id]);
       return User.fromMap(maps[0]);
     } catch (e) {
       print(e);
@@ -300,7 +302,8 @@ class MyDatabase {
   Future<Todo> getTodoById(int id) async {
     try {
       Database db = await database;
-      List<Map<String,dynamic>> maps = await db.query("todos", where: "id = ?", whereArgs: [id]);
+      List<Map<String, dynamic>> maps =
+          await db.query("todos", where: "id = ?", whereArgs: [id]);
       return Todo.fromMap(maps[0]);
     } catch (e) {
       print(e);
@@ -324,7 +327,8 @@ class MyDatabase {
   Future<int> deleteTodosByUserId(int userId) async {
     try {
       Database db = await database;
-      return await db.delete("todos", where: "user_id = ?", whereArgs: [userId]);
+      return await db
+          .delete("todos", where: "user_id = ?", whereArgs: [userId]);
     } catch (e) {
       print(e);
       throw Exception("Error deleting todos");
@@ -332,7 +336,8 @@ class MyDatabase {
   }
 
   // update user name and password
-  Future<int> updateUserNameAndPassword(int id, String name, String password) async {
+  Future<int> updateUserNameAndPassword(
+      int id, String name, String password) async {
     try {
       Database db = await database;
       return await db.update("users", {"name": name, "password": password},

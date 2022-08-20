@@ -35,117 +35,119 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 130,
-              ),
-              CircleAvatar(
-                radius: 50,
-                child: FlutterLogo(
-                  size: 50,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 130,
                 ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Welcome to Remember',
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              const SizedBox(height: 24.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
+                CircleAvatar(
+                  radius: 50,
+                  child: FlutterLogo(
+                    size: 50,
                   ),
-                  validator: (value) {
-                    if (value != null) if (value.isEmpty) {
-                      return 'Please enter your email';
-                    } else if (!_emailRegExp.hasMatch(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
                 ),
-              ),
-              const SizedBox(height: 24.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: TextFormField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
+                SizedBox(height: 20),
+                Text(
+                  'Welcome to Remember',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                const SizedBox(height: 24.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                    ),
+                    validator: (value) {
+                      if (value != null) if (value.isEmpty) {
+                        return 'Please enter your email';
+                      } else if (!_emailRegExp.hasMatch(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value != null) if (value.isEmpty) {
-                      return 'Please enter your password';
-                    } else if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
-                    } else if (value.length > 20) {
-                      return 'Password must be less than 20 characters';
-                    }
-                    return null;
-                  },
                 ),
-              ),
-              const SizedBox(height: 24.0),
-              Container(
-                width: double.infinity,
-                margin: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: ElevatedButton(
-                  child: const Text('Login'),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _showLoadingIndicator(context);
-                      Future.delayed(
-                        const Duration(seconds: 2),
-                        () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                              builder: (context) => DashboardPage(),
-                            ),
-                            (Route<dynamic> route) => false,
-                          );
-                        },
+                const SizedBox(height: 24.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: TextFormField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                    ),
+                    validator: (value) {
+                      if (value != null) if (value.isEmpty) {
+                        return 'Please enter your password';
+                      } else if (value.length < 6) {
+                        return 'Password must be at least 6 characters';
+                      } else if (value.length > 20) {
+                        return 'Password must be less than 20 characters';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(height: 24.0),
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: ElevatedButton(
+                    child: const Text('Login'),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _showLoadingIndicator(context);
+                        Future.delayed(
+                          const Duration(seconds: 5),
+                          () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (context) => DashboardPage(),
+                              ),
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                        );
+                      } else {
+                        _showSnackBar(context, 'Please fill in the form');
+                      }
+                    },
+                  ),
+                ),
+                // if don't have an account, go to register page
+                const SizedBox(height: 24.0),
+                Text(
+                  'Don\'t have an account?',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 16.0,
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: OutlinedButton(
+                    child: const Text('Register'),
+                    onPressed: () {
+                      // push to register page
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => RegisterPage(),
+                        ),
                       );
-                    } else {
-                      _showSnackBar(context, 'Please fill in the form');
-                    }
-                  },
+                    },
+                  ),
                 ),
-              ),
-              // if don't have an account, go to register page
-              const SizedBox(height: 24.0),
-              Text(
-                'Don\'t have an account?',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 16.0,
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              Container(
-                width: double.infinity,
-                margin: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: OutlinedButton(
-                  child: const Text('Register'),
-                  onPressed: () {
-                    // push to register page
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => RegisterPage(),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -157,6 +159,7 @@ class _LoginPageState extends State<LoginPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
+        backgroundColor: Colors.red,
       ),
     );
   }
