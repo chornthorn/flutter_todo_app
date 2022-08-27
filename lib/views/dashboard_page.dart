@@ -7,6 +7,8 @@ import 'todo_list_page.dart';
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
 
+  static const String routeName= '/main';
+
   @override
   State<DashboardPage> createState() => _DashboardPageState();
 }

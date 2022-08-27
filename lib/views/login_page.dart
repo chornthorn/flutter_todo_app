@@ -8,6 +8,8 @@ import 'register_page.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
+  static const String routeName = '/login';
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -42,9 +44,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 130,
-                ),
+                SizedBox(height: 130),
                 CircleAvatar(
                   radius: 50,
                   child: FlutterLogo(
@@ -136,13 +136,23 @@ class _LoginPageState extends State<LoginPage> {
                   margin: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: OutlinedButton(
                     child: const Text('Register'),
-                    onPressed: () {
+                    onPressed: () async{
                       // push to register page
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => RegisterPage(),
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (context) => RegisterPage(
+                      //       deviceId: "ios001",
+                      //     ),
+                      //   ),
+                      // );
+                      final resultFromRegister = await Navigator.of(context).pushNamed(
+                        RegisterPage.routeName,
+                        arguments: RegisterArgumentPage(
+                          deviceName: 'Nameddd',
+                          deviceId: '0001',
                         ),
                       );
+                      print("Result back: $resultFromRegister");
                     },
                   ),
                 ),
