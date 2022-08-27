@@ -32,11 +32,12 @@ class MyApp extends StatelessWidget {
       //   "/" : (context) => LoginPage(),
       //   RegisterPage.routeName: (context) => RegisterPage(),
       // },
+      // initialRoute: '/todo_detail',
       onGenerateRoute: (settings) {
         var argument = settings.arguments;
         switch (settings.name) {
           case SplashPage.routeName:
-            return MaterialPageRoute(builder: (context) => SplashPage());
+            return MaterialPageRoute(builder: (context) => TodoListPage());
           case LoginPage.routeName:
             return MaterialPageRoute(builder: (context) => LoginPage());
           case '/register':

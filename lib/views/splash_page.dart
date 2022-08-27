@@ -22,7 +22,7 @@ class _SplashPageState extends State<SplashPage> {
   var _isLogged = false;
 
   void _registerService() async {
-    await Future.delayed(const Duration(seconds: 3),(){
+    await Future.delayed(const Duration(seconds: 0),(){
       if (_isLogged){
         Navigator.of(context).pushReplacementNamed(DashboardPage.routeName,result: (route)=> false);
       }else{

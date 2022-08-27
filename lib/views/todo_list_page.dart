@@ -11,6 +11,8 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
+  int _featureItemCount = 2;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,34 +37,151 @@ class _TodoListPageState extends State<TodoListPage> {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: CircleAvatar(
-              child: Text('A$index'),
-            ),
-            title: Text('Todo 1'),
-            subtitle: Text('Todo 1 description'),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () {
-                print('delete button pressed');
-                _showDeleteDialog(context);
-              },
-            ),
-            onTap: () {
-              print('tapped $index');
-              // navigate to todo detail page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TodoDetail(),
+      // body: ListView.builder(
+      //   itemCount: 10,
+      //   itemBuilder: (context, index) {
+      //     return ListTile(
+      //       leading: CircleAvatar(
+      //         child: Text('A$index'),
+      //       ),
+      //       title: Text('Todo 1'),
+      //       subtitle: Text('Todo 1 description'),
+      //       trailing: IconButton(
+      //         icon: const Icon(Icons.delete),
+      //         onPressed: () {
+      //           print('delete button pressed');
+      //           _showDeleteDialog(context);
+      //         },
+      //       ),
+      //       onTap: () {
+      //         print('tapped $index');
+      //         // navigate to todo detail page
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) => TodoDetail(),
+      //           ),
+      //         );
+      //       },
+      //     );
+      //   },
+      // ),
+      body: ListView(
+        children: [
+          Container(
+            width: 200,
+            height: 250,
+            decoration: BoxDecoration(
+                border: Border.all(
+              width: 1,
+              color: Colors.grey.withOpacity(0.5),
+            )),
+            padding: EdgeInsets.all(24),
+            alignment: Alignment.center,
+            margin: EdgeInsets.all(16),
+            child: Text("Slide Banner"),
+          ),
+          SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Popular",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              );
-            },
-          );
-        },
+                // Spacer(),
+                Text(
+                  "View all",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 16),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  ...List.generate(
+                    3,
+                    (index) => Container(
+                      width: 200,
+                      height: 250,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.grey.withOpacity(0.5),
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: EdgeInsets.all(24),
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(right: 8),
+                      child: Text("Hello $index"),
+                    ),
+                  ),
+                  Text('20+ more'),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              "Feature",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  ...List.generate(
+                    _featureItemCount,
+                    (index) => Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                        width: 1,
+                        color: Colors.grey.withOpacity(0.5),
+                      )),
+                      padding: EdgeInsets.all(24),
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(right: 8),
+                      child: Text("Hello $index"),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _featureItemCount = 20;
+                      });
+                    },
+                    child: Text("20+ more"),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
