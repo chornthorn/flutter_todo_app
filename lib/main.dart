@@ -9,6 +9,7 @@ import 'package:todo_app/views/todo_detail_page.dart';
 import 'package:todo_app/views/todo_list_page.dart';
 
 import 'views/dashboard_page.dart';
+import 'views/product_grid_page.dart';
 
 void main() => runApp(const MyApp());
 
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
         var argument = settings.arguments;
         switch (settings.name) {
           case SplashPage.routeName:
-            return MaterialPageRoute(builder: (context) => TodoListPage());
+            return MaterialPageRoute(
+                builder: (context) => ProductGridViewPage());
           case LoginPage.routeName:
             return MaterialPageRoute(builder: (context) => LoginPage());
           case '/register':

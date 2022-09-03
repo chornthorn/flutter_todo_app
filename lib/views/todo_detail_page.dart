@@ -10,14 +10,15 @@ class TodoDetail extends StatefulWidget {
 class _TodoDetailState extends State<TodoDetail> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return new Scaffold(
+      appBar: new AppBar(
+
         title: const Text('Todo Detail'),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(24),
-          child: Column(
+          child: new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
